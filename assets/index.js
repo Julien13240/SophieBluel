@@ -24,16 +24,16 @@ document.addEventListener("DOMContentLoaded", function() {
         { src: "assets/images/hotel-first-arte-new-delhi.png", alt: "Hotel First Arte - New Delhi", caption: "Hotel First Arte - New Delhi" }
     ];
 
-    const galleryContainer = document.querySelector('.gallery');
+    const galleryContainer = document.querySelector(".gallery");
 
     galleryData.forEach(item => {
-        const figure = document.createElement('figure');
+        const figure = document.createElement("figure");
         
-        const img = document.createElement('img');
+        const img = document.createElement("img");
         img.src = item.src;
         img.alt = item.alt;
         
-        const figcaption = document.createElement('figcaption');
+        const figcaption = document.createElement("figcaption");
         figcaption.textContent = item.caption;
 
         figure.appendChild(img);
