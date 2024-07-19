@@ -12,16 +12,22 @@
     />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
-    <script src="/FrontEnd/assets/index.js"></script>
   </head>
   <body>
     <header>
+      <div id="topBar" class="admin">
+        <i class="fa-regular fa-pen-to-square"></i>
+        <span>Mode édition</span>
+      </div>
+
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <li>login</li>
+          <li class="active">
+            <a id="login-button" href="login.html">login</a>
+          </li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -51,7 +57,15 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div class="portofolio-header">
+          <h2>Mes Projets</h2>
+          <div class="admin">
+            <i class="fa-regular fa-pen-to-square"></i>
+            <span>modifier</span>
+          </div>
+        </div>
+
+        <div class="categories admin"></div>
         <div class="gallery"></div>
       </section>
       <section id="contact">
@@ -76,5 +90,7 @@
         </ul>
       </nav>
     </footer>
+    <script src="/FrontEnd/assets/index.js" defer></script>
+    <script src="/FrontEnd/assets/modal.js" defer></script>
   </body>
 </html>

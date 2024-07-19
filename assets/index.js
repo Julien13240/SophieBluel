@@ -1,43 +1,121 @@
-async function getWorks(){
-    const response = await fetch("http://localhost:5678/api/works")
-    const works = await response.json()
-    return works
+async function getWorks() { // Déclare une fonction asynchrone
+    const response = await fetch("http://localhost:5678/api/works"); // Envoie une requête à l'API et attends une réponse
+    const works = await response.json(); // Convertit la réponse en language compréhensible par JS
+    return works;
 }
-async function displayWorks(){
-    const works = await getWorks()
-    console.log(works)
+
+async function getCategories() {
+    const response = await fetch("http://localhost:5678/api/categories");
+    const categories = await response.json();
+    return categories;
 }
-displayWorks()
 
-document.addEventListener("DOMContentLoaded", function() {
-    const galleryData = [
-        { src: "assets/images/abajour-tahina.png", alt: "Abajour Tahina", caption: "Abajour Tahina" },
-        { src: "assets/images/appartement-paris-v.png", alt: "Appartement Paris V", caption: "Appartement Paris V" },
-        { src: "assets/images/restaurant-sushisen-londres.png", alt: "Restaurant Sushisen - Londres", caption: "Restaurant Sushisen - Londres" },
-        { src: "assets/images/la-balisiere.png", alt: "Villa “La Balisiere” - Port Louis", caption: "Villa “La Balisiere” - Port Louis" },
-        { src: "assets/images/structures-thermopolis.png", alt: "Structures Thermopolis", caption: "Structures Thermopolis" },
-        { src: "assets/images/appartement-paris-x.png", alt: "Appartement Paris X", caption: "Appartement Paris X" },
-        { src: "assets/images/le-coteau-cassis.png", alt: "Pavillon “Le coteau” - Cassis", caption: "Pavillon “Le coteau” - Cassis" },
-        { src: "assets/images/villa-ferneze.png", alt: "Villa Ferneze - Isola d’Elba", caption: "Villa Ferneze - Isola d’Elba" },
-        { src: "assets/images/appartement-paris-xviii.png", alt: "Appartement Paris XVIII", caption: "Appartement Paris XVIII" },
-        { src: "assets/images/bar-lullaby-paris.png", alt: "Bar “Lullaby” - Paris", caption: "Bar “Lullaby” - Paris" },
-        { src: "assets/images/hotel-first-arte-new-delhi.png", alt: "Hotel First Arte - New Delhi", caption: "Hotel First Arte - New Delhi" }
-    ];
+async function displayWorks(categoryId = -1) { // Rajoute le paramètre "Tous"(-1) en valeur par défaut
+    const galleryData = await getWorks(); // Récupère tous les éléments dans le fichier works de l'API
+    const galleryContainer = document.querySelector(".gallery"); //Sélectionne l'élément HTML avec la classe gallery 
+    // et le stocke dans galleryContainer.
+    galleryContainer.innerHTML = ''; // Vide le contenu de galleryContainer pour préparer l'affichage des nouvelles œuvres.
 
-    const galleryContainer = document.querySelector(".gallery");
+    galleryData.forEach(item => { // Boucle pour chaque éléments "items" dans galleryData
+        if (categoryId === -1 || item.categoryId === categoryId) {
+            // || = opérateur logique OU, sert a vérifier si l'une ou l'autre des conditions est vraie. 
+            // Si categoryId n'est pas -1,alors la condition item.categoryId === categoryId vérifie si 
+            // l'élément appartient à la catégorie sélectionnée et cela permet de sélectionner uniquement 
+            // les éléments qui appartiennent à la catégorie spécifiée.
+            // En résumé, cette ligne de code permet de filtrer une collection d'éléments en fonction d'un 
+            // critère de catégorie, tout en offrant la possibilité de sélectionner tous les éléments lorsque 
+            // categoryId est égal à -1.
+            const figure = document.createElement("figure");
+            //Créer un élément figure
+            const img = document.createElement("img");
+            // Créer un élément img
+            img.src = item.imageUrl; // Fais correspondre l'attribut "src" à l'URL d'un élément appelé via l'API
+            img.alt = item.title; // Fais correspondre l'attribut "alt" au titre correspondant à lélément appelé
 
-    galleryData.forEach(item => {
-        const figure = document.createElement("figure");
-        
-        const img = document.createElement("img");
-        img.src = item.src;
-        img.alt = item.alt;
-        
-        const figcaption = document.createElement("figcaption");
-        figcaption.textContent = item.caption;
+            const figcaption = document.createElement("figcaption"); //Crée un élément "figcaption"
+            figcaption.textContent = item.title; // Fais correspondre le contenu du texte figcaption avec le titre
+            // de l'élément séléctionné
 
-        figure.appendChild(img);
-        figure.appendChild(figcaption);
-        galleryContainer.appendChild(figure);
+            figure.appendChild(img);
+            figure.appendChild(figcaption);
+            galleryContainer.appendChild(figure);
+        }
     });
-});
+}
+
+async function displayCategories() {
+    const categoriesData = await getCategories();
+    categoriesData.unshift({ id: -1, name: "Tous" }); // Ajoute une catégorie en début de liste
+    const categoriesContainer = document.querySelector(".categories"); // Selectionne le container "categories" dans le HTML pour afficher les filtres
+
+    categoriesData.forEach(item => {
+        const div = document.createElement("div"); // Créer une div pour chaque éléments présent dans categoriesData
+        div.classList.add("category-item"); // Lui ajoute la classe "category-item"
+        div.textContent = item.name; // Fais correspondre le nom de la categorie au texte de la div assignée
+        categoriesContainer.appendChild(div);
+
+        div.addEventListener("click", function () {
+            document.querySelectorAll(".category-item").forEach(category => { // Selectionne tous les éléments qui ont la classe "category-item"
+                // et boucle pour que pour chaque élément avec cette classe soit séléctionnés.
+                category.classList.remove("active");
+                // pour supprimer la classe "active" de tous les éléments de catégorie avant de mettre à jour l'élément cliqué
+            });
+            div.classList.add("active"); // Ajoute la classe "active" sur la div cliquée
+            displayWorks(item.id);
+        });
+    });
+}
+
+// Vérifie si l'utilisateur est connecté
+function isConnected() {
+
+    // Retourne vrai si le token existe dans le localStorage, faux sinon
+    return sessionStorage.getItem("token") !== null;
+}
+if (isConnected()) {
+    // L'utilisateur est connecté
+    console.log("Utilisateur connecté");
+} else {
+    // L'utilisateur n'est pas connecté
+    console.log("Utilisateur non connecté");
+}
+// Gère le bouton de connexion/déconnexion en fonction de l'état de connexion
+
+function handleLoginButton() {
+    const loginButton = document.getElementById("login-button");
+    if (isConnected()) {
+        loginButton.innerText = "logout";
+        loginButton.addEventListener("click", () => {
+            sessionStorage.removeItem("token");
+            window.location.href = "./index.html"; // Redirige vers l'accueil après déconnexion
+        });
+    } else {
+        loginButton.innerText = "login";
+
+    }
+}
+function adjustDisplayIfLogin() {
+    const adminElements = document.querySelectorAll(".admin");
+    const loggedIn = isConnected();
+
+    function toggleVisibility(elements, condition) {
+        elements.forEach((element) => {
+            if (condition) {
+                element.classList.remove("hidden");
+            } else {
+                element.classList.add("hidden");
+            }
+        });
+    }
+    toggleVisibility(adminElements, loggedIn);
+
+}
+
+
+
+
+isConnected();
+handleLoginButton();
+adjustDisplayIfLogin();
+displayCategories();
+displayWorks();
