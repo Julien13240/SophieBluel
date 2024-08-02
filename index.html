@@ -10,8 +10,19 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
+    <script
+      src="https://kit.fontawesome.com/fbf0a0a4f8.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header>
@@ -25,10 +36,16 @@
         <ul>
           <li>projets</li>
           <li>contact</li>
-          <li class="active">
+          <li>
             <a id="login-button" href="login.html">login</a>
           </li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          <li>
+            <img
+              class="logo"
+              src="./assets/icons/instagram.png"
+              alt="Instagram"
+            />
+          </li>
         </ul>
       </nav>
     </header>
@@ -61,13 +78,65 @@
           <h2>Mes Projets</h2>
           <div class="admin">
             <i class="fa-regular fa-pen-to-square"></i>
-            <span>modifier</span>
+            <span id="modifier">modifier</span>
           </div>
         </div>
-
-        <div class="categories admin"></div>
+        <div class="categories hide"></div>
         <div class="gallery"></div>
       </section>
+      <!-- Première modale -->
+      <div id="modale" class="modale">
+        <div class="modale-content">
+          <span class="close">&times;</span>
+          <h2>Gallery Photo</h2>
+          <div id="image-container"></div>
+          <button id="ajouter">Ajouter une photo</button>
+        </div>
+      </div>
+
+      <!-- Deuxième modale -->
+      <div id="modale-ajout" class="modale">
+        <div class="modale-content">
+          <span class="close">&times;</span>
+          <span id="back-to-modale" class="back-arrow">&#x2190;</span>
+          <h2>Ajout photo</h2>
+          <div class="form-container">
+            <form id="modale-ajout-form">
+              <img src="" alt="" id="image-preview" />
+              <label for="photo-upload" class="upload-label">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  fill="#b9c5cc"
+                >
+                  <path
+                    class="logo-image"
+                    d="M448 80c8.8 0 16 7.2 16 16l0 319.8-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3L48 96c0-8.8 7.2-16 16-16l384 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"
+                  />
+                </svg>
+                <input
+                  type="file"
+                  id="photo-upload"
+                  accept="image/jpeg, image/png"
+                />
+                <span>+ Ajouter photo</span>
+              </label>
+              <p id="file-info">jpg, png : 4mo max</p>
+              <label for="photo-title">Titre</label>
+              <input type="text" id="photo-title" />
+              <label for="photo-category">Catégorie</label>
+              <select id="photo-category">
+                <option value="" disabled selected></option>
+                <option value="objets">Objets</option>
+                <option value="appartements">Appartements</option>
+                <option value="hotels-restaurants">Hôtels Restaurants</option>
+              </select>
+              <button id="valider">Valider</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <section id="contact">
         <h2>Contact</h2>
         <p>Vous avez un projet ? Discutons-en !</p>

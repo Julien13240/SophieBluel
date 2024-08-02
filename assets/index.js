@@ -69,7 +69,7 @@ async function displayCategories() {
 // Vérifie si l'utilisateur est connecté
 function isConnected() {
 
-    // Retourne vrai si le token existe dans le localStorage, faux sinon
+    // Retourne vrai si le token existe dans le sessionStorage, faux sinon
     return sessionStorage.getItem("token") !== null;
 }
 if (isConnected()) {
@@ -96,24 +96,26 @@ function handleLoginButton() {
 }
 function adjustDisplayIfLogin() {
     const adminElements = document.querySelectorAll(".admin");
+    const hideCategories = document.querySelectorAll(".hide")
     const loggedIn = isConnected();
 
     function toggleVisibility(elements, condition) {
         elements.forEach((element) => {
             if (condition) {
                 element.classList.remove("hidden");
+
             } else {
                 element.classList.add("hidden");
             }
         });
     }
     toggleVisibility(adminElements, loggedIn);
-
+    toggleVisibility(hideCategories, !loggedIn);
 }
 
 
 
-
+getWorks();
 isConnected();
 handleLoginButton();
 adjustDisplayIfLogin();

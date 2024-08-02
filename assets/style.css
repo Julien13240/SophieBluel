@@ -168,10 +168,14 @@ nav ul {
   display: flex;
   align-items: center;
   list-style-type: none;
+  gap: 44px;
 }
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
+}
+nav li img.logo {
+  height: 20px;
 }
 nav li.active {
   font-weight: bold;
@@ -206,6 +210,8 @@ li:hover {
 
 #introduction p {
   margin-bottom: 0.5em;
+  size: 14px;
+  line-height: 16px;
 }
 #portfolio h2 {
   text-align: center;
@@ -317,6 +323,270 @@ footer nav ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1em;
+  margin-bottom: 51px;
+  margin-top: 139px;
   gap: 30px;
+}
+
+/* Modale */
+
+.modale {
+  display: none; /* Masqué par défaut */
+  position: fixed;
+  z-index: 1; /* Au-dessus du contenu */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Défilement si nécessaire */
+  background-color: rgb(0, 0, 0); /* Couleur de fond */
+  background-color: rgba(0, 0, 0, 0.4); /* Couleur de fond avec opacité */
+}
+
+.modale-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 630px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border-radius: 15px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 65px;
+  margin-bottom: 35px;
+  margin-left: 40px;
+}
+
+#image-container img {
+  margin: 10px;
+  max-width: 80px;
+  max-height: 100px;
+  cursor: pointer;
+}
+#modale h2 {
+  text-align: center;
+  margin-bottom: 42px;
+  margin-top: 60px;
+  color: black;
+  font-family: "Work Sans";
+}
+#ajouter {
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 15px;
+  color: white;
+  background-color: #1d6154;
+  font-family: "Syne";
+  width: 200px;
+  display: block;
+  margin: 0 auto;
+}
+
+.photo-item {
+  position: relative;
+  width: calc(20% - 10px); /* 5 images par ligne */
+  box-sizing: border-box;
+  position: relative;
+}
+
+.photo-item img {
+  width: 80px;
+  height: 100px;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 13px;
+  right: 20px;
+  background: url("/FrontEnd/assets/logo/trashcan.png") no-repeat center center;
+  background-size: auto;
+  background-color: black;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Styles pour la deuxième modale */
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #e8f1f6;
+  border-radius: 3px;
+  padding: 20px;
+  cursor: pointer;
+  width: 420px;
+  height: 169px;
+}
+
+.upload-label input[type="file"] {
+  display: none; /* Masque l'input file */
+}
+
+.upload-label span {
+  color: #306685;
+  font-size: 16px;
+  border: #306685 2px;
+  border-radius: 50px;
+  padding: 10px;
+  background-color: #cbd6dc;
+}
+
+.form-container input[type="text"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+#valider {
+  background-color: #a7a7a7;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 237px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#valider:hover {
+  background-color: #1d6154;
+}
+
+.modale-content h2 {
+  text-align: center;
+  margin-bottom: 42px;
+  margin-top: 60px;
+  color: black;
+  font-family: "Work Sans";
+}
+/* Styles pour la flèche de retour */
+.back-arrow {
+  color: black;
+  float: left;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.back-arrow:hover,
+.back-arrow:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.logo-image {
+  background-color: #b9c5cc;
+}
+
+/* Styles pour la deuxième modale */
+#modale-ajout-form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrer les éléments */
+}
+
+#modale-ajout-form input,
+#modale-ajout-form select {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  width: 100%; /* S'assurer que les champs remplissent le conteneur */
+  max-width: 500px; /* Limite maximale pour les champs */
+  padding: 10px; /* Ajouter du padding pour l'espacement interne */
+  margin-bottom: 20px; /* Espacement entre les champs */
+}
+
+#modale-ajout-form select {
+  -webkit-appearance: none; /* Enlever l'apparence par défaut sur WebKit */
+  -moz-appearance: none; /* Enlever l'apparence par défaut sur Mozilla */
+  appearance: none; /* Enlever l'apparence par défaut sur les autres navigateurs */
+  background: #fff
+    url('data:image/svg+xml;utf8,<svg fill="%23000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+    no-repeat right 10px center;
+  background-size: 24px;
+  border-radius: 5px;
+  padding-right: 40px;
+}
+
+#modale-ajout-form label {
+  margin: 2em 0 1em 0;
+  align-self: flex-start; /* S'assurer que les labels sont alignés à gauche */
+}
+
+#modale-ajout-form textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#modale-ajout-form button {
+  margin-top: 20px; /* Ajouter de l'espace au-dessus du bouton */
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  background-color: #888; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
+  cursor: pointer;
+  width: 200px; /* Largeur du bouton */
+  text-align: center;
+  align-self: center; /* Centrer le bouton */
+  border-radius: 60px; /* Bordures arrondies */
+}
+#image-preview {
+  display: none;
+  width: 100%; /* Ajuste la largeur à 100% de son conteneur */
+  max-width: 500px; /* Limite la largeur maximale de l'image */
+  max-height: 300px; /* Limite la hauteur maximale de l'image */
+  object-fit: cover; /* Maintient les proportions de l'image et remplit la boîte */
+  margin-top: 20px; /* Espacement au-dessus de l'image */
 }
