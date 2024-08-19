@@ -8,170 +8,192 @@ document.addEventListener("DOMContentLoaded", function () {
     const validate = document.getElementById("valider");
     const backToModale = document.getElementById("back-to-modale");
 
+    // Fonction pour afficher les images existantes dans la modale
     async function displayWorksInModale() {
         const modalData = await getWorks();
+        //fonction asynchrone qui fait appel à une API via getWorks pour 
+        //récupérer les images déjà présentes
+        imageContainer.innerHTML = ''; // Vider le conteneur pour éviter les doublons
 
         modalData.forEach(item => {
-            console.log("Photo chargée", item);
-
-            // Créer un élément figure
+            // Créer un élément figure pour chaque image
             const figure = document.createElement("figure");
-            figure.classList.add("photo-item"); // Ajouter une classe pour le style si nécessaire
+            figure.classList.add("photo-item");
 
-            // Créer un élément img
             const img = document.createElement("img");
-            img.src = item.imageUrl; // Correspondre l'attribut "src" à l'URL d'un élément appelé via l'API
-            img.alt = item.title; // Ajouter un texte alternatif
+            img.src = item.imageUrl;
+            img.alt = item.title;
 
-            // Créer un bouton de suppression sous forme de corbeille
             const deleteButton = document.createElement("button");
-            deleteButton.classList.add("delete-btn"); // Ajouter une classe pour le style
+            deleteButton.classList.add("delete-btn");
+
 
             deleteButton.addEventListener("click", function () {
-                imageContainer.removeChild(figure);
+
+                deleteImage(item.id)
             });
 
-            // Ajouter l'image et le bouton de suppression à l'élément figure
             figure.appendChild(img);
             figure.appendChild(deleteButton);
-
-            // Ajouter l'élément figure au conteneur d'images
             imageContainer.appendChild(figure);
+            // Pour chaque image récupérée, un élément figure est créé, 
+            // contenant l'image et un bouton de suppression.
         });
     }
 
+    // Initialisation de l'affichage des images dans la modale
     displayWorksInModale();
 
-    // Quand l'utilisateur clique sur "modifier", la modale s'affiche
+    // Gestion des événements pour l'affichage et la fermeture des modales
     modify.addEventListener("click", function () {
-        console.log("Ouverture modale");
         modale.style.display = "block";
     });
-
-    // Quand l'utilisateur clique sur <span> (x), la modale se ferme
+    //Itère sur le span "close"
     for (var i = 0; i < span.length; i++) {
         span[i].addEventListener("click", function () {
-            console.log("Fermeture modale");
             modale.style.display = "none";
             modaleAjout.style.display = "none";
         });
     }
 
-    // Quand l'utilisateur clique en dehors de la modale, elle se ferme
     window.addEventListener("click", function (event) {
         if (event.target == modale || event.target == modaleAjout) {
-            console.log("Fermeture modale en cliquant en dehors");
             modale.style.display = "none";
-            modaleAjout.style.display = "none"
+            modaleAjout.style.display = "none";
         }
     });
-
-    // Quand l'utilisateur clique sur "ajouter", la première modale se cache et la deuxième s'affiche
+    // Clic sur ajouter dans la 1ere modale, ferme la 1ere modale et affiche la 2eme
     add.addEventListener("click", function () {
-        console.log("Ouverture modale ajout");
         modale.style.display = "none";
         modaleAjout.style.display = "block";
     });
-
-    // Quand l'utilisateur clique sur la flèche de retour, la deuxième modale se cache et la première s'affiche
+    // Clic sur la fleche dans la 2eme modale pour revenir dans la 1ere
     backToModale.addEventListener("click", function () {
-        console.log("Retour à la première modale");
         modaleAjout.style.display = "none";
         modale.style.display = "block";
     });
 
-    // Quand l'utilisateur clique sur "valider" dans la deuxième modale
-    validate.addEventListener("click", function () {
+    // Gestion de l'ajout d'une nouvelle image
+    validate.addEventListener("click", async function (event) {
+        event.preventDefault();
         const photoUpload = document.getElementById("photo-upload").files[0];
         const photoTitle = document.getElementById("photo-title").value;
         const photoCategory = document.getElementById("photo-category").value;
 
         if (photoUpload && photoTitle && photoCategory) {
+            const formData = new FormData();
+            formData.append("image", photoUpload);
+            formData.append("title", photoTitle);
+            formData.append("category", photoCategory);
 
-            addImage(newImageUrl, photoTitle, photoCategory);
+            try {
+                const response = await fetch("http://localhost:5678/api/works", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + sessionStorage.getItem("token")
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erreur lors de l'ajout de l'image: " + response.statusText);
+                }
+                toggleErrorMsg("add", "error-msg-picture");
+                displayWorks();
+                displayWorksInModale();
+
+                // Réinitialiser la deuxième modale et revenir à la première
+                resetAjoutModale();
+                modaleAjout.style.display = "none";
+                modale.style.display = "block";
+
+            } catch (error) {
+                console.error("Erreur lors de l'ajout de l'image:", error);
+                toggleErrorMsg("remove", "error-msg-picture", "Une erreur est survenue")
+            }
         } else {
             alert("Veuillez remplir tous les champs et sélectionner une image.");
         }
     });
 
+    // Prévisualisation de l'image dans la modale avant validation
     function previewModalPicture() {
         const photoUpload = document.getElementById("photo-upload");
 
         photoUpload.addEventListener("change", function () {
             const reader = new FileReader();
-            const imagePreview = document.getElementById("image-preview")
-            const uploadLabel = document.querySelector(".upload-label")
+            const imagePreview = document.getElementById("image-preview");
+            const previewContainer = document.querySelector(".preview-container");
+
             reader.onload = function (event) {
                 const newImageUrl = event.target.result;
-                imagePreview.src = newImageUrl
-                uploadLabel.style.display = "none"
+                imagePreview.src = newImageUrl;
+                previewContainer.style.display = "none";
+                imagePreview.style.display = "block";
             };
+
             reader.readAsDataURL(photoUpload.files[0]);
-        })
+        });
     }
     previewModalPicture();
 
-    async function addImage(url, title, category) {
+
+    // Fonction pour réinitialiser les champs de la deuxième modale
+    function resetAjoutModale() {
+        document.getElementById("photo-upload").value = "";
+        document.getElementById("photo-title").value = "";
+        document.getElementById("photo-category").value = "";
+        document.getElementById("image-preview").style.display = "none";
+    }
+
+
+
+    // Fonction pour supprimer une image via l'API
+    async function deleteImage(id) {
         try {
-            console.log("Ajoute nouvelle image via l'URL:", url);
-            let response = await fetch("http://localhost:5678/api/works", {
-                method: "POST",
+            let response = await fetch(`http://localhost:5678/api/works/${id}`, {
+                method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + sessionStorage.getItem("token")
                 },
-                body: JSON.stringify({ url: url, title: title, category: category })
             });
             if (!response.ok) {
-                throw new Error("Erreur lors de l'ajout de l'image: " + response.statusText);
+
+                throw new Error("Erreur lors de la suppression de l'image: " + response.statusText);
             }
-            console.log("Image ajoutée");
-            getWorks();
+
+            toggleErrorMsg("add", "error-remove-msg");
+            displayWorks();
+            displayWorksInModale();
         } catch (error) {
-            console.error("Erreur lors de l'ajout de l'image:", error);
+            toggleErrorMsg("remove", "error-remove-msg", "Une erreur est survenue")
+            console.error("Erreur lors de la suppression de l'image:", error);
         }
+
     }
 
+    // Générer dynamiquement le select et ses options
+    async function generatePhotoCategorySelect() {
+        const categories = await getCategories()
 
-});
+        const select = document.createElement("select");
+        const emptyOption = document.createElement("option");
+        select.appendChild(emptyOption)
+        select.id = "photo-category";
 
-async function deleteImage(id) {
-    try {
-        console.log("Suppression de l'image avec ID:", id);
-        let response = await fetch(`http://localhost:5678/api/works/${id}`, {
-            method: "DELETE",
-        });
-        if (!response.ok) {
-            throw new Error("Erreur lors de la suppression de l'image: " + response.statusText);
+        for (let category of categories) {
+            const option = document.createElement("option");
+            option.value = category.id;
+            option.textContent = category.name;
+
+            select.appendChild(option);
         }
-        console.log("Image supprimée");
-    } catch (error) {
-        console.error("Erreur lors de la suppression de l'image:", error);
+
+        document.getElementById("container").appendChild(select);
     }
-}
 
-document.addEventListener('DOMContentLoaded', function () {
-    const addPhotoButton = document.querySelector('.upload-label');
-    const imagePreview = document.getElementById('image-preview');
-    const fileInfo = document.getElementById('file-info');
-
-    addPhotoButton.addEventListener('click', async function () {
-        try {
-            // Appel à l'API pour récupérer les travaux
-            const response = await fetch('http://localhost:5678/api/works');
-            const works = await response.json();
-
-            // Sélectionnez la première image disponible
-            const firstWork = works[0];
-            const imageUrl = firstWork.imageUrl;
-
-            // Masquez le texte de la taille de fichier et affichez l'aperçu de l'image
-            fileInfo.style.display = 'none';
-            imagePreview.src = imageUrl;
-            imagePreview.style.display = 'block';
-
-        } catch (error) {
-            console.error('Erreur lors de la récupération de l\'image:', error);
-        }
-    });
+    generatePhotoCategorySelect();
 });
+
 

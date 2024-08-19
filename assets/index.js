@@ -84,7 +84,7 @@ if (isConnected()) {
 function handleLoginButton() {
     const loginButton = document.getElementById("login-button");
     if (isConnected()) {
-        loginButton.innerText = "logout";
+        loginButton.innerText = "logout"; // Change le login en logout si connexion
         loginButton.addEventListener("click", () => {
             sessionStorage.removeItem("token");
             window.location.href = "./index.html"; // Redirige vers l'accueil après déconnexion
@@ -99,7 +99,9 @@ function adjustDisplayIfLogin() {
     const hideCategories = document.querySelectorAll(".hide")
     const loggedIn = isConnected();
 
-    function toggleVisibility(elements, condition) {
+    function toggleVisibility(elements, condition) { // Elle prend deux arguments : 
+        //une liste d'éléments (ici soit adminElements, soit hideCategories) et une 
+        //condition (vrai ou faux) basée sur l'état de connexion.
         elements.forEach((element) => {
             if (condition) {
                 element.classList.remove("hidden");
@@ -113,6 +115,20 @@ function adjustDisplayIfLogin() {
     toggleVisibility(hideCategories, !loggedIn);
 }
 
+function toggleErrorMsg(visibility, idSelector, errorMessage = "") {
+    //gère l'affichage d'un message d'erreur, informe l'utilisateur en cas de problème
+    const errorMsg = document.getElementById(idSelector)
+    if (visibility === "add") {
+        errorMsg.classList.add("hidden")
+    }
+    else if (visibility === "remove") {
+        errorMsg.classList.remove("hidden")
+    }
+
+    errorMsg.textContent = errorMessage
+
+
+}
 
 
 getWorks();

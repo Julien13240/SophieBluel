@@ -316,9 +316,16 @@ footer nav ul {
   justify-content: center;
 }
 
+/* Classes pour cacher et afficher*/
+
 .hidden {
   display: none !important;
 }
+
+.visible {
+  display: block;
+}
+
 .portofolio-header {
   display: flex;
   justify-content: center;
@@ -424,7 +431,7 @@ footer nav ul {
   position: absolute;
   top: 13px;
   right: 20px;
-  background: url("/FrontEnd/assets/logo/trashcan.png") no-repeat center center;
+  background: url("./logo/trashcan.png") no-repeat center center;
   background-size: auto;
   background-color: black;
   border: none;
@@ -450,6 +457,7 @@ footer nav ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: #e8f1f6;
   border-radius: 3px;
   padding: 20px;
@@ -507,7 +515,7 @@ footer nav ul {
 }
 /* Styles pour la flèche de retour */
 .back-arrow {
-  color: black;
+  color: #aaa;
   float: left;
   font-size: 28px;
   font-weight: bold;
@@ -522,7 +530,7 @@ footer nav ul {
 }
 
 .logo-image {
-  background-color: #b9c5cc;
+  margin: 10%;
 }
 
 /* Styles pour la deuxième modale */
@@ -536,19 +544,17 @@ footer nav ul {
 
 #modale-ajout-form input,
 #modale-ajout-form select {
-  height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  width: 100%; /* S'assurer que les champs remplissent le conteneur */
-  max-width: 500px; /* Limite maximale pour les champs */
-  padding: 10px; /* Ajouter du padding pour l'espacement interne */
-  margin-bottom: 20px; /* Espacement entre les champs */
+  width: 100%;
+  max-width: 420px;
+  padding: 10px;
+  margin-bottom: 20px; /*Espacement entre les champs*/
 }
 
 #modale-ajout-form select {
   -webkit-appearance: none; /* Enlever l'apparence par défaut sur WebKit */
-  -moz-appearance: none; /* Enlever l'apparence par défaut sur Mozilla */
   appearance: none; /* Enlever l'apparence par défaut sur les autres navigateurs */
   background: #fff
     url('data:image/svg+xml;utf8,<svg fill="%23000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
@@ -584,9 +590,49 @@ footer nav ul {
 }
 #image-preview {
   display: none;
-  width: 100%; /* Ajuste la largeur à 100% de son conteneur */
+  width: 130px; /* Ajuste la largeur à 100% de son conteneur */
+  height: 190px;
   max-width: 500px; /* Limite la largeur maximale de l'image */
   max-height: 300px; /* Limite la hauteur maximale de l'image */
   object-fit: cover; /* Maintient les proportions de l'image et remplit la boîte */
   margin-top: 20px; /* Espacement au-dessus de l'image */
+}
+
+#container {
+  max-width: 420px;
+  width: 100%;
+}
+
+.custom-select-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-select-container label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.custom-select-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 50px;
+  max-width: 500px;
+}
+
+.preview-container p {
+  margin: 15px;
+}
+.error-msg {
+  color: red;
+  text-align: center;
 }

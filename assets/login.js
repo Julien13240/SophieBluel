@@ -33,11 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {// ajoute un écouteur d'é
       console.log(response);
       if (response.status === 200) {
         sessionStorage.setItem("token", logs.token);
+        toggleErrorMsg("remove", "error-message");
         alert("Vous etes connecté ! Redirection en cours ...")
-        window.location.href = "./index.html";
+        window.location.href = "index.html";
       }
       else {
-        alert("Email ou mot de passe incorrect")
+        toggleErrorMsg("add", "error-message", "E-mail ou mot de passe incorrect");
       }
 
 
@@ -49,3 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {// ajoute un écouteur d'é
 
 
 });
+
+function toggleErrorMsg(visibility, idSelector, errorMessage = "") {
+
+  const errorMsg = document.getElementById(idSelector)
+  if (visibility === "add") {
+    errorMsg.classList.add("hidden")
+  }
+  else if (visibility === "remove") {
+    errorMsg.classList.remove("hidden")
+  }
+
+  errorMsg.textContent = errorMessage
+
+
+}
