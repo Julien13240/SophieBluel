@@ -508,10 +508,11 @@ footer nav ul {
 
 .modale-content h2 {
   text-align: center;
-  margin-bottom: 42px;
-  margin-top: 60px;
+  margin-bottom: 10px;
+  margin-top: 40px;
   color: black;
   font-family: "Work Sans";
+  font-weight: 400;
 }
 /* Styles pour la flèche de retour */
 .back-arrow {
