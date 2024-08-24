@@ -461,7 +461,6 @@ footer nav ul {
   text-align: center;
   background-color: #e8f1f6;
   border-radius: 3px;
-  padding: 20px;
   cursor: pointer;
   width: 420px;
   height: 169px;
@@ -503,7 +502,7 @@ footer nav ul {
   margin-top: 20px;
 }
 
-#valider:hover {
+#valider:not(:disabled) {
   background-color: #1d6154;
 }
 
@@ -531,13 +530,12 @@ footer nav ul {
 }
 
 .logo-image {
-  margin: 10%;
+  width: 70px;
 }
 
 /* Styles pour la deuxième modale */
 #modale-ajout-form {
   text-align: left;
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center; /* Centrer les éléments */
@@ -581,7 +579,7 @@ footer nav ul {
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  background-color: #888; /* Couleur de fond */
+  background-color: #a7a7a7; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
   cursor: pointer;
   width: 200px; /* Largeur du bouton */
@@ -592,11 +590,8 @@ footer nav ul {
 #image-preview {
   display: none;
   width: 130px; /* Ajuste la largeur à 100% de son conteneur */
-  height: 190px;
-  max-width: 500px; /* Limite la largeur maximale de l'image */
-  max-height: 300px; /* Limite la hauteur maximale de l'image */
+  height: 100%;
   object-fit: cover; /* Maintient les proportions de l'image et remplit la boîte */
-  margin-top: 20px; /* Espacement au-dessus de l'image */
 }
 
 #container {
@@ -629,11 +624,22 @@ footer nav ul {
   height: 50px;
   max-width: 500px;
 }
-
-.preview-container p {
-  margin: 15px;
+.preview-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
+
 .error-msg {
   color: red;
   text-align: center;
+}
+.margin {
+  margin: 10px;
+}
+
+.line {
+  border-bottom: 1px solid #a7a7a7;
+  padding: 30px;
 }

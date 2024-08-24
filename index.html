@@ -125,12 +125,16 @@
                   <p id="file-info">jpg, png : 4mo max</p>
                 </div>
               </label>
-              <label for="photo-title">Titre</label>
+              <label for="photo-title margin">Titre</label>
               <input type="text" id="photo-title" />
               <label for="photo-category">Catégorie</label>
-              <div id="container"></div>
+              <div id="container" class="line">
+                <select name="category" id="photo-category">
+                  <option value=""></option>
+                </select>
+              </div>
               <p id="error-msg-picture" class="hidden error-msg"></p>
-              <button id="valider">Valider</button>
+              <button id="valider" disabled>Valider</button>
             </form>
           </div>
         </div>
