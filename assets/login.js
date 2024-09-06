@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {// ajoute un écouteur d'é
       // Affiche une alerte indiquant que l'utilisateur est connecté et redirige vers la page d'accueil avec window.location.href = "index.html"
       else {
         toggleErrorMsg("add", "error-message", "E-mail ou mot de passe incorrect");
+        console.log("Erreur: mauvais mot de passe")
       }
     } catch (error) {
       console.error("Erreur:", error);
@@ -59,11 +60,12 @@ function toggleErrorMsg(visibility, idSelector, errorMessage = "") {
   // "errorMessage" qui contient le texte du message d'erreur.
 
   const errorMsg = document.getElementById(idSelector)
+  console.log(errorMsg);
   if (visibility === "add") {
-    errorMsg.classList.add("hidden")
+    errorMsg.classList.remove("hidden")
   }
   else if (visibility === "remove") {
-    errorMsg.classList.remove("hidden")
+    errorMsg.classList.add("hidden")
   }
 
   errorMsg.textContent = errorMessage
