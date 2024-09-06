@@ -145,21 +145,27 @@ document.addEventListener("DOMContentLoaded", function () {
         let inputPhotoFill = false
         let inputTitleFill = false
         let inputCategoryFill = false
+        // Variables booléennes qui indiquent si chaque champ a été rempli.
         photoUpload.addEventListener("change", function (event) {
             inputPhotoFill = !!event.target.files
             disabledSubmitButton(!inputPhotoFill || !inputTitleFill || !inputCategoryFill)
+            // Cet événement vérifie si un fichier a été sélectionné pour l'upload, puis met à jour la variable inputPhotoFill en conséquence.
         })
         photoTitle.addEventListener("input", function (event) {
             inputTitleFill = !!event.target.value
             disabledSubmitButton(!inputPhotoFill || !inputTitleFill || !inputCategoryFill)
+            // Cet événement vérifie si un titre a été saisi.
         })
         photoCategory.addEventListener("input", function (event) {
             inputCategoryFill = !!event.target.value
             disabledSubmitButton(!inputPhotoFill || !inputTitleFill || !inputCategoryFill)
+            // Cet événement vérifie si une catégorie a été sélectionnée.
         })
     }
     function disabledSubmitButton(disabled) {
         document.getElementById("valider").disabled = disabled
+        // La fonction disabledSubmitButton() active ou désactive le bouton "valider" en fonction de si tous les champs sont remplis. 
+        // Si l'un des champs n'est pas rempli, le bouton est désactivé, empêchant ainsi l'utilisateur de soumettre le formulaire.
     }
     handleSubmitButton();
 
@@ -192,15 +198,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fonction pour réinitialiser les champs de la deuxième modale
     function resetAjoutModale() {
-
-        document.getElementById("photo-upload").files = null;
+        // Cette fonction réinitialise tous les champs et états associés dans la modale d'ajout d'image après soumission ou lorsque l'utilisateur annule 
+        // l'ajout
+        document.getElementById("photo-upload").files = null; //l'image est retirée
         document.getElementById("photo-title").value = "";
-        document.getElementById("photo-category").value = "";
-        document.getElementById("image-preview").style.display = "none";
+        document.getElementById("photo-category").value = ""; // Les champs sont vidés
+        document.getElementById("image-preview").style.display = "none"; // L'aperçu est caché
         const previewContainer = document.querySelector(".preview-container");
-        previewContainer.style.display = "flex";
+        previewContainer.style.display = "flex"; // Le conteneur d'aperçu est réaffiché
 
         disabledSubmitButton(true);
+        // Le bouton "valider" est désactivé (disabledSubmitButton(true);), forçant l'utilisateur à re-remplir les champs
+        //  avant de pouvoir soumettre à nouveau.
     }
 
 
@@ -231,24 +240,25 @@ document.addEventListener("DOMContentLoaded", function () {
         // En cas de succès, l'affichage des images est mis à jour pour refléter la suppression. En cas d'échec, un message d'erreur est affiché.
     }
 
-    // Générer dynamiquement le select et ses options
+    // Génère dynamiquement les options pour le champ de sélection de la catégorie
     async function generatePhotoCategorySelect() {
         const categories = await getCategories()
-        // Récupère les catégories via getCategories() et crée un élément <select> avec des <option> pour chaque catégorie.
+        // Fonction asynchrone qui appelle une API pour obtenir la liste des catégories disponibles.
         const photoCategory = document.getElementById("photo-category")
 
-        for (let category of categories) {
+        for (let category of categories) { //  Boucle sur chaque élément (chaque catégorie) de la liste categories. 
+            // Chaque élément est stocké temporairement dans la variable category pour être utilisé dans les itérations de la boucle.
             const option = document.createElement("option");
             option.value = category.id;
             option.textContent = category.name;
+            // Pour chaque catégorie reçue, une nouvelle option (<option>) est créée avec l'ID de la catégorie 
+            // comme valeur (option.value) et le nom de la catégorie comme texte (option.textContent).
 
             photoCategory.appendChild(option);
+            // Chaque option est ensuite ajoutée au champ de sélection (photoCategory.appendChild(option);), 
+            // permettant ainsi à l'utilisateur de choisir parmi les catégories disponibles.
         }
-
-
-
     }
-
     generatePhotoCategorySelect();
 });
 
